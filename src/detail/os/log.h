@@ -1,16 +1,13 @@
 #pragma once
 
-#define FMT_HEADER_ONLY 1
-#include "fmt/format.h"
-#include "fmt/ranges.h"
-
-#ifndef CLAP_WRAPPER_LOGLEVEL
-#if NDEBUG
 #define CLAP_WRAPPER_LOGLEVEL 0
-#else
-#define CLAP_WRAPPER_LOGLEVEL 2
-#endif
-#endif
+//#ifndef CLAP_WRAPPER_LOGLEVEL
+//#if NDEBUG
+//#define CLAP_WRAPPER_LOGLEVEL 0
+//#else
+//#define CLAP_WRAPPER_LOGLEVEL 2
+//#endif
+//#endif
 
 #if CLAP_WRAPPER_LOGLEVEL == 0
 #define LOGINFO(...) (void(0))
@@ -37,25 +34,25 @@ inline void log(const char* text)
 #endif
 }
 
-template <typename... Args>
-void log(fmt::string_view format_str, Args&&... args)
-{
-  fmt::memory_buffer buf;
-  fmt::vformat_to(std::back_inserter(buf), format_str, fmt::make_format_args(args...));
-  buf.push_back(0);
-  log((const char*)buf.data());
-}
+//template <typename... Args>
+//void log(fmt::string_view format_str, Args&&... args)
+//{
+//  fmt::memory_buffer buf;
+//  fmt::vformat_to(std::back_inserter(buf), format_str, fmt::make_format_args(args...));
+//  buf.push_back(0);
+//  log((const char*)buf.data());
+//}
 
-template <typename... Args>
-void logWithLocation(const std::string& file, uint32_t line, const std::string func,
-                     fmt::string_view format_str, Args&&... args)
-{
-  fmt::memory_buffer buf;
-  fmt::vformat_to(std::back_inserter(buf), "{}:{} ({}) ", fmt::make_format_args(file, line, func));
-  fmt::vformat_to(std::back_inserter(buf), format_str, fmt::make_format_args(args...));
-  buf.push_back(0);
-  log((const char*)buf.data());
-}
+//template <typename... Args>
+//void logWithLocation(const std::string& file, uint32_t line, const std::string func,
+//                     fmt::string_view format_str, Args&&... args)
+//{
+//  fmt::memory_buffer buf;
+//  fmt::vformat_to(std::back_inserter(buf), "{}:{} ({}) ", fmt::make_format_args(file, line, func));
+//  fmt::vformat_to(std::back_inserter(buf), format_str, fmt::make_format_args(args...));
+//  buf.push_back(0);
+//  log((const char*)buf.data());
+//}
 }  // namespace os
 
 #if (CLAP_WRAPPER_LOGLEVEL == 0)

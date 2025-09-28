@@ -13,7 +13,6 @@
 #include <tchar.h>
 #include "public.sdk/source/main/moduleinit.h"
 #include "osutil.h"
-#include <fmt/xchar.h>
 #include "osutil_windows.h"
 
 // from dllmain.cpp of the VST3 SDK
