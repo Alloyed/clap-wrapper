@@ -1,3 +1,4 @@
+#include <string>
 #define NOMINMAX 1
 
 /*
@@ -10,6 +11,7 @@
 */
 
 #include <windows.h>
+#include <stdio.h>
 #include <tchar.h>
 #include "public.sdk/source/main/moduleinit.h"
 #include "osutil.h"
@@ -95,7 +97,15 @@ LRESULT WindowsHelper::Wndproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 static std::wstring helperClassName(HINSTANCE hinst)
 {
-  return fmt::format(L"clapwrapper{}", (void*)hinst);
+  //return fmt::format(L"clapwrapper{}", (void*)hinst);
+  std::wstring out;
+  out.resize(32);
+  int s = _snwprintf(out.data(), out.size(), L"clapwrapper%p", (void*)hinst);
+  if (s > 0 && s < static_cast<int>(out.size()))
+  {
+    out.resize(s);
+  }
+  return out;
 }
 
 void WindowsHelper::init()
