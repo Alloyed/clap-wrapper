@@ -16,10 +16,6 @@
 #include <winrt/windows.foundation.h>
 #include <winrt/windows.data.json.h>
 
-#define FMT_HEADER_ONLY 1
-#include <fmt/format.h>
-#include <fmt/xchar.h>
-
 #include "detail/standalone/entry.h"
 #include "detail/standalone/standalone_host.h"
 
@@ -49,19 +45,19 @@ std::string getLastError();
 void log(const std::string &message);
 void log(const std::wstring &message);
 
-template <typename... Args>
-void log(const fmt::format_string<Args...> fmt, Args &&...args)
-{
-  ::OutputDebugStringW(toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str());
-  ::OutputDebugStringW(L"\n");
-}
-
-template <typename... Args>
-void log(const fmt::wformat_string<Args...> fmt, Args &&...args)
-{
-  ::OutputDebugStringW(fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str());
-  ::OutputDebugStringW(L"\n");
-}
+//template <typename... Args>
+//void log(const fmt::format_string<Args...> fmt, Args &&...args)
+//{
+//  ::OutputDebugStringW(toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str());
+//  ::OutputDebugStringW(L"\n");
+//}
+//
+//template <typename... Args>
+//void log(const fmt::wformat_string<Args...> fmt, Args &&...args)
+//{
+//  ::OutputDebugStringW(fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str());
+//  ::OutputDebugStringW(L"\n");
+//}
 
 int run();
 void abort(int exitCode = EXIT_FAILURE);
@@ -95,33 +91,33 @@ struct MessageHandler
   void error(const std::string &errorMessage);
   void error(const std::wstring &errorMessage);
 
-  template <typename... Args>
-  void box(const fmt::format_string<Args...> fmt, Args &&...args)
-  {
-    ::MessageBoxW(nullptr, toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str(),
-                  nullptr, MB_OK | MB_ICONASTERISK);
-  }
+  //template <typename... Args>
+  //void box(const fmt::format_string<Args...> fmt, Args &&...args)
+  //{
+  //  ::MessageBoxW(nullptr, toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str(),
+  //                nullptr, MB_OK | MB_ICONASTERISK);
+  //}
 
-  template <typename... Args>
-  void box(const fmt::wformat_string<Args...> fmt, Args &&...args)
-  {
-    ::MessageBoxW(nullptr, fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str(), nullptr,
-                  MB_OK | MB_ICONASTERISK);
-  }
+  //template <typename... Args>
+  //void box(const fmt::wformat_string<Args...> fmt, Args &&...args)
+  //{
+  //  ::MessageBoxW(nullptr, fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str(), nullptr,
+  //                MB_OK | MB_ICONASTERISK);
+  //}
 
-  template <typename... Args>
-  void error(const fmt::format_string<Args...> fmt, Args &&...args)
-  {
-    ::MessageBoxW(nullptr, toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str(),
-                  nullptr, MB_OK | MB_ICONHAND);
-  }
+  //template <typename... Args>
+  //void error(const fmt::format_string<Args...> fmt, Args &&...args)
+  //{
+  //  ::MessageBoxW(nullptr, toUTF16(fmt::vformat(fmt.get(), fmt::make_format_args(args...))).c_str(),
+  //                nullptr, MB_OK | MB_ICONHAND);
+  //}
 
-  template <typename... Args>
-  void error(const fmt::wformat_string<Args...> fmt, Args &&...args)
-  {
-    ::MessageBoxW(nullptr, fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str(), nullptr,
-                  MB_OK | MB_ICONHAND);
-  }
+  //template <typename... Args>
+  //void error(const fmt::wformat_string<Args...> fmt, Args &&...args)
+  //{
+  //  ::MessageBoxW(nullptr, fmt::vformat(fmt.get(), fmt::make_wformat_args(args...)).c_str(), nullptr,
+  //                MB_OK | MB_ICONHAND);
+  //}
 
  private:
   std::unordered_map<::UINT, MessageCallback> map;

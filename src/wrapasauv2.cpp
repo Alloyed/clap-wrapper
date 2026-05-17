@@ -1379,7 +1379,7 @@ bool WrapAsAUV2::ValidFormat(AudioUnitScope inScope, AudioUnitElement inElement,
   {
     return true;
   }
-  //LOGINFO("False");
+  LOGINFO("False");
   return false;
 }
 

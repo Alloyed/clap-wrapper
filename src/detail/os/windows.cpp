@@ -13,7 +13,8 @@
 #include <tchar.h>
 #include "public.sdk/source/main/moduleinit.h"
 #include "osutil.h"
-#include <fmt/xchar.h>
+#include <sstream>
+//#include <fmt/xchar.h>
 #include "osutil_windows.h"
 
 // from dllmain.cpp of the VST3 SDK
@@ -96,8 +97,10 @@ LRESULT WindowsHelper::Wndproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 static std::wstring helperClassName(HINSTANCE hinst)
 {
-  return fmt::format(L"clapwrapper{}", (void *)hinst);
-}
+    std::wstringstream ss;
+    ss << L"clapwrapper" << static_cast<void*>(hinst);
+    return ss.str();
+  }
 
 void WindowsHelper::init()
 {

@@ -52,7 +52,7 @@ make_clapfirst_plugins(
         # This allows you to make multiple standalones from a multi-plugin clap
         # In this case, the standalone has no UI and is an audio to audio effect
         # so it isn't very useful
-        # STANDALONE_CONFIGURATIONS
-        # standalone "${PRODUCT_NAME}" "org.free-audio.clap-first-bad-distortion"
+        STANDALONE_CONFIGURATIONS
+        standalone "${PRODUCT_NAME}" "org.free-audio.clap-first-bad-distortion"
 )
 

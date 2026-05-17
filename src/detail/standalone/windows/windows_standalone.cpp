@@ -1,5 +1,7 @@
 #include "windows_standalone.h"
 
+#include <fstream>
+
 namespace freeaudio::clap_wrapper::standalone::windows_standalone
 {
 std::vector<std::string> getArgs()
@@ -85,7 +87,9 @@ std::wstring toUTF16(std::string_view input)
 
       if (::MultiByteToWideChar(CP_UTF8, 0, input.data(), length, output.data(), length) == 0)
       {
-        log("toUTF16(): {}", getLastError());
+        std::stringstream ss;
+        ss << "toUTF16: " << getLastError();
+        log(ss.str());
       }
     }
     else
@@ -114,7 +118,9 @@ std::string toUTF8(std::wstring_view input)
       if (::WideCharToMultiByte(CP_UTF8, 0, input.data(), length, output.data(), length, nullptr,
                                 nullptr) == 0)
       {
-        log("toUTF8(): {}", getLastError());
+        std::stringstream ss;
+        ss << "toUTF8: " << getLastError();
+        log(ss.str());
       }
     }
     else
@@ -770,7 +776,9 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
                      }
                      catch (const fs::filesystem_error &e)
                      {
-                       message.error("Unable to save state: {}", e.what());
+                       std::stringstream ss;
+                       ss << "Unable to save state: " << e.what();
+                       message.error(ss.str());
                      }
                    }
 
@@ -804,7 +812,9 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
                      }
                      catch (const fs::filesystem_error &e)
                      {
-                       message.error("Unable to load state: {}", e.what());
+                       std::stringstream ss;
+                       ss << "Unable to load state: " << e.what();
+                       message.error(ss.str());
                      }
                    }
 
@@ -828,7 +838,9 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
                      }
                      catch (const fs::filesystem_error &e)
                      {
-                       message.error("Unable to reset state: {}", e.what());
+                       std::stringstream ss;
+                       ss << "Unable to reset state: " << e.what();
+                       message.error(ss.str());
                      }
                    }
 
@@ -947,7 +959,7 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
                 }
                 catch (RtMidiError &error)
                 {
-                  log("{}", error.getMessage());
+                  log(error.getMessage());
                 };
               }
               else
@@ -1108,7 +1120,9 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
 
       Position pluginSize;
       plugin.gui->get_size(plugin.plugin, &pluginSize.width, &pluginSize.height);
-      log("{}, {}", pluginSize.width, pluginSize.height);
+      std::stringstream ss;
+      ss << pluginSize.width << ", " << pluginSize.height;
+      log(ss.str());
 
       adjustSize(pluginSize.width, pluginSize.height);
 
@@ -1141,7 +1155,11 @@ Plugin::Plugin(std::shared_ptr<Clap::Plugin> clapPlugin)
   refreshMIDIInputs();
 
   sah->displayAudioError = [this](auto &errorText)
-  { message.error("Unable to configure audio: {}", errorText); };
+  {
+    std::stringstream ss;
+    ss << "Unable to configure audio:  " << errorText;
+    message.error(ss.str());
+  };
 
   refreshApis();
   refreshOutputs();

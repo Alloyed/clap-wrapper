@@ -1002,7 +1002,10 @@ void ClapAsVst3::setupParameters(const clap_plugin_t *plugin, const clap_plugin_
       midiUnitInfo.parentUnitId = 0;  // parented in the root unit
       midiUnitInfo.programListId = Vst::kNoProgramListId;
 
-      auto name = fmt::format("MIDI Channel {}", channel + 1);
+      std::stringstream ss;
+      ss << "MIDI Channel " << channel + 1;
+      auto name = ss.str();
+      //auto name = fmt::format("MIDI Channel {}", channel + 1);
 
       stringconv::convert(name, midiUnitInfo.name);
 
@@ -1040,7 +1043,10 @@ void ClapAsVst3::setupParameters(const clap_plugin_t *plugin, const clap_plugin_
         auto programlist = new Steinberg::Vst::ProgramList(STR16("Program Changes"), x, midiUnitInfo.id);
         for (int pc = 0; pc < 128; ++pc)
         {
-          auto programname = fmt::format("Program {}", pc + 1);
+          std::stringstream ss;
+          ss << "Program " << pc + 1;
+          auto programname = ss.str();
+          //auto programname = fmt::format("Program {}", pc + 1);
 
           programlist->addProgram(stringconv::convert(programname).c_str());
         }
